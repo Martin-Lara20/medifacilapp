@@ -2,42 +2,61 @@ import React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
-import Pharmacy from "../screens/Pharmacy"
-import Maps from "../screens/Maps"
-import Search from "../screens/Search"
-import Account from "../screens/Account"
+import {Icon} from 'react-native-elements'
 
+//import Pharmacy from "../screens/Pharmacy"
+import PharmacyStack from "./PharmacyStacks"
+//import Maps from "../screens/Maps"
+import MapsStack from "./MapsStacks"
+//import Search from "../screens/Search"
+import SearchStack from "./SearchStacks"
+//import Account from "../screens/Account"
+import AccountStack from "./AccountStacks"
+//import TopMedicine from "../screens/TopMedicine"
+import TopMedicineStack from "./TopMedicine"
 
 const Tab = createBottomTabNavigator()
-import TopMedicine from "../screens/TopMedicine"
+
 
 export default function Navigation(){
     return(
         <NavigationContainer>
-            <Tab.Navigator>
+            <Tab.Navigator
+            initialRouteName="search"
+            tabBarOptions={{
+                 inactiveTintColor: '#665c5b',
+                 activeTintColor: '#d6210f'
+            }}
+            screenOptions = {({route}) => ({
+                  tabBarIcon:({color}) => screenOptions (route, color)
+            })} 
+            
+            
+            >
+
                 <Tab.Screen 
                     name = 'pharmacy'
-                    component= {Pharmacy}
+                    component= {PharmacyStack}
                     options= {{title:'Farmacias'}}
                 />
                   <Tab.Screen 
                     name = 'maps'
-                    component= {Maps}
-                    options= {{title:'Maps'}}
+                    component= {MapsStack}
+                    options= {{title:'Mapa'}}
                 />
                   <Tab.Screen 
                     name = 'search'
-                    component= {Search}
+                    component= {SearchStack}
                     options= {{title:'Buscar'}}
                 />
                   <Tab.Screen 
                     name = 'topMedicine'
-                    component= {TopMedicine}
+                    component= {TopMedicineStack}
                     options= {{title:'Top 5'}}
                 />
                   <Tab.Screen 
                     name = 'account'
-                    component= {Account}
+                    component= {AccountStack}
                     options= {{title:'Cuenta'}}
                 />
             </Tab.Navigator>
@@ -45,3 +64,26 @@ export default function Navigation(){
     )
 }
 
+function screenOptions(route, color){
+  let iconName
+  switch (route.name) {
+    case 'pharmacy':
+      iconName='bottle-tonic-plus'
+      break
+    case 'maps':
+      iconName='map-search-outline'
+      break
+    case 'search':
+      iconName='card-search'
+      break
+    case 'topMedicine':
+      iconName='medical-bag'
+      break
+    case 'account':
+      iconName='account-heart'
+       break
+  }
+  return(
+    <Icon type='material-community' name={iconName} size={22} color={color}/>
+  )
+}
