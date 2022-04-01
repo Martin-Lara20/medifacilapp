@@ -26,8 +26,10 @@ function CreateAccount(){
     return(
         <Text style = {styles.textUserRegister}>
             ¿Aun no tienes cuenta?{' '}
-            <Text style = {styles.linkUserRegister}
-                onPress ={()=>navigation.navigate('UserRegister')}
+
+            <Text style = {styles.linkRegister}
+                onPress ={()=>navigation.navigate('option')}
+
             >
                 Sign Up
             </Text>
