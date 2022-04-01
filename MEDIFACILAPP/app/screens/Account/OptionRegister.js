@@ -31,7 +31,7 @@ function OptionAccount(){
                 title = 'Usuario'
                 buttonStyle ={styles.btnStyle}
                 containerStyle = {styles.btnContainer}
-                onPress = {()=> navigation.navigate('')}
+                onPress = {()=> navigation.navigate('UserRegister')}
             >
             </Button>
 
