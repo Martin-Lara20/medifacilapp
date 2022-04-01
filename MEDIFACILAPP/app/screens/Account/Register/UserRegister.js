@@ -8,10 +8,10 @@ export default function UserRegister(){
         <KeyboardAwareScrollView>
             <Image
                 source={require('../../../../assets/img/medifacil.png')}
-                resizeMode='contain'
-                Style={styles.logo}
-                />
-            <View style = {styles.viewForms}>
+                resizeMode = 'contain'
+                style = {styles.logo}
+            />
+            <View style ={styles.viewForm}>
                 
                 <UserRegisterForm/>
             </View>
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     },
     logo:{
         width:'100%',
-        height: 50,
+        height: 200,
         marginTop: 20
     }
 })

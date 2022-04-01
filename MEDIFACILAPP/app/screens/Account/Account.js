@@ -17,9 +17,9 @@ export default function Account(){
             //? if 
             //: else
         })
-    }, [])
+    }, []) 
 
-    if(login === null) return <Loading isVisible = {true} text = 'Cargando...'/>
+    if(login === null) return <Loading isVisible = {true} text = 'Procesando'/>
 
     return login ? <UserLogged/> : <UserGuest/>
 }

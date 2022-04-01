@@ -22,7 +22,7 @@ export default function Navigation(){
     return(
         <NavigationContainer>
             <Tab.Navigator
-            initialRouteName="account"
+            initialRouteName="search"
             tabBarOptions={{
                  inactiveTintColor: '#665c5b',
                  activeTintColor: '#d6210f'
