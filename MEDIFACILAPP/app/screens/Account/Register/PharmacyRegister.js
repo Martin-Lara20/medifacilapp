@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useRef} from "react";
 import {StyleSheet, View, Text, Image} from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Toast from "react-native-toast-message"
 
 import PharmacyRegisterForm from "../../../components/Account/PharmacyRegisterForm";
 
 export default function PharmacyRegister(){
+    const toastRef = useRef()
     return(
         <KeyboardAwareScrollView>
             <Image
@@ -13,8 +15,9 @@ export default function PharmacyRegister(){
                 style = {styles.logo}
             />
             <View style ={styles.viewForm}>
-                <PharmacyRegisterForm/>
+                <PharmacyRegisterForm toastRef={toastRef}/>
             </View>
+            <Toast ref={toastRef}/>
         </KeyboardAwareScrollView>
     )
 }
