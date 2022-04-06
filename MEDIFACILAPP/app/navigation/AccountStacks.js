@@ -6,6 +6,7 @@ import OptionRegister from "../screens/Account/OptionRegister"
 import PharmacyRegister from '../screens/Account/Register/PharmacyRegister.js'
 import UserRegister from "../screens/Account/Register/UserRegister"
 import UserLogin from "../screens/Account/Login/UserLogin"
+import PharmacyLogin from "../screens/Account/Login/PharmacyLogin"
 
 
 
@@ -44,7 +45,12 @@ export default function AccountStack(){
                 name = "userLogin"
                 component = {UserLogin}
                 options = {{title: "Login Usuario"}}
-            />      
+            />
+            <Stack.Screen
+                name = "pharmacyLogin"
+                component = {PharmacyLogin}
+                options = {{title: "Login Farmacia"}}
+            />       
         </Stack.Navigator>
     )
 }

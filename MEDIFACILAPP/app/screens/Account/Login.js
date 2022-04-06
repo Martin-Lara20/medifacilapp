@@ -59,7 +59,7 @@ function OptionLogin(){
                 title = 'Farmacia'
                 buttonStyle ={styles.btnStyle}
                 containerStyle = {styles.btnContainer}
-                /* onPress = {()=> navigation.navigate('')} */
+                onPress = {()=> navigation.navigate('pharmacyLogin')} 
             />
         </View>        
     )
