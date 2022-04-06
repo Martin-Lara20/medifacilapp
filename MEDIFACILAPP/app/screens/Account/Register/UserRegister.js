@@ -1,9 +1,12 @@
-import React from "react"
+import React, {useRef} from "react"
 import { StyleSheet, View, Text, Image} from 'react-native'
 import UserRegisterForm from "../../../components/Account/UserRegisterForm"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Toast from "react-native-toast-message"
+
 
 export default function UserRegister(){
+    const toastRef = useRef()
     return(
         <KeyboardAwareScrollView>
             <Image
@@ -13,8 +16,9 @@ export default function UserRegister(){
             />
             <View style ={styles.viewForm}>
                 
-                <UserRegisterForm/>
+                <UserRegisterForm toastRef={toastRef}/>
             </View>
+            <Toast ref={toastRef}/>
         </KeyboardAwareScrollView>
     )
 
@@ -22,7 +26,7 @@ export default function UserRegister(){
 }
 
 const styles = StyleSheet.create({
-    viewForms:{
+    viewForm:{
         marginRight: 40,
         marginLeft: 40 
     },
