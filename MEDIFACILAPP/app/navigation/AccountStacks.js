@@ -5,6 +5,8 @@ import Login from "../screens/Account/Login"
 import OptionRegister from "../screens/Account/OptionRegister"
 import PharmacyRegister from '../screens/Account/Register/PharmacyRegister.js'
 import UserRegister from "../screens/Account/Register/UserRegister"
+import UserLogin from "../screens/Account/Login/UserLogin"
+
 
 
 const Stack = createStackNavigator()
@@ -37,7 +39,12 @@ export default function AccountStack(){
                 name = "UserRegister"
                 component = {UserRegister}
                 options = {{title: "Registro de usuario"}}
-            />    
+            />
+            <Stack.Screen
+                name = "userLogin"
+                component = {UserLogin}
+                options = {{title: "Login Usuario"}}
+            />      
         </Stack.Navigator>
     )
 }

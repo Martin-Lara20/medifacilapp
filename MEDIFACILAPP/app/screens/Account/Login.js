@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet, View, ScrollView, Text, Image} from 'react-native'
-import {Divider} from 'react-native-elements'
+import {Divider, Button} from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
 
 export default function Login(){
@@ -13,9 +13,15 @@ export default function Login(){
                 style = {styles.logo}
             />
 
+            <Text style = {styles.optionSesion}>
+                Iniciar sesión como:
+            </Text>
+
             <View style = {styles.viewContainer}>
+                <OptionLogin/>
                 <CreateAccount/>
             </View>
+
             <Divider style={styles.divider}/>
         </ScrollView>
     )
@@ -33,6 +39,29 @@ function CreateAccount(){
                 Sign Up
             </Text>
         </Text>
+    )
+}
+
+function OptionLogin(){
+    const navigation = useNavigation()
+    return(
+
+        <View style = {styles.viewBtn}>            
+            <Button
+                title = 'Usuario'
+                buttonStyle ={styles.btnStyle}
+                containerStyle = {styles.btnContainer}
+                onPress = {()=> navigation.navigate('userLogin')}
+            >
+            </Button>
+
+            <Button
+                title = 'Farmacia'
+                buttonStyle ={styles.btnStyle}
+                containerStyle = {styles.btnContainer}
+                /* onPress = {()=> navigation.navigate('')} */
+            />
+        </View>        
     )
 }
 
@@ -62,6 +91,27 @@ const styles = StyleSheet.create({
     linkUserRegister:{
         color:'#05A6A6',
         fontWeight: 'bold'
-    }
+    },
+    optionSesion:{
+        marginTop: 15,
+        marginLeft: 10,
+        marginRight: 10,
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    viewBtn:{
+        flex: 1,
+        alignItems: 'center',
+        marginLeft: '10%',
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    btnStyle:{
+        backgroundColor: '#05A6A6',
+        width: '80%'
+    },
+    btnContainer:{
+        width: '40%'
 
+    } 
 })
