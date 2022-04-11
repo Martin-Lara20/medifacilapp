@@ -60,7 +60,7 @@ export default function PharmacyRegisterForm(props){
             firebase.auth()
             .createUserWithEmailAndPassword(formData.email, formData.password)
             .then(() =>{
-                navigation.navigate('pharmacyLogged')
+                navigation.navigate('account')
             })
             .catch(()=>{
                 toastRef.current.show({

@@ -41,7 +41,7 @@ export default function UserInfo(props){
           <Avatar
            title=''
            rounded
-           size='xlarge'
+           size='large'
            onPress={changeAvatar}
            containerStyle={styles.userInfoAvatar}
            source={

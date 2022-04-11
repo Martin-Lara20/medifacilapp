@@ -3,23 +3,27 @@ import {View, Text, StyleSheet } from 'react-native'
 import firebase from 'firebase'
 import Toast from 'react-native-toast-message'
 import {Button} from 'react-native-elements'
+
 import PharmacyInfo from '../../components/Account/pharmacy/PharmacyInfo'
-import AccountOption from '../../components/Account/pharmacy/AccountOption'
+import AccountOptionPharmacy from '../../components/Account/pharmacy/AccountOptionPharmacy'
 
 export default function PharmacyLogged(){
     const [pharmacyInfo, setPharmacyInfo] = useState(null)
+    const[reloadPharmacyInfo, setReloadPharmacyInfo] = useState(false)
+
     const toastRef = useRef()
     useEffect(()=>{
         (async()=>{
-            const user = await firebase.auth().
+            const pharmacy = await firebase.auth().
             currentUser
-            setPharmacyInfo(user)
+            setPharmacyInfo(pharmacy)
         })()
-    }, [])
+        setReloadPharmacyInfo(false)
+    }, [reloadPharmacyInfo])
     return(
         <View style={styles.viewPharmInfo}>
             {pharmacyInfo && <PharmacyInfo pharmacyInfo={pharmacyInfo} toastRef={toastRef}/>}
-            <AccountOption pharmacyInfo ={pharmacyInfo} toastRef={toastRef}/>
+            <AccountOptionPharmacy pharmacyInfo ={pharmacyInfo} toastRef={toastRef} setReloadPharmacyInfo={setReloadPharmacyInfo}/>
             <Button 
                 title= 'Cerrar sesion' 
                 buttonStyle={styles.btnCloseSession}
