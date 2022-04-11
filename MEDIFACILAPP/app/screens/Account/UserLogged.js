@@ -3,24 +3,28 @@ import {View, Text, StyleSheet } from 'react-native'
 import firebase from 'firebase'
 import Toast from 'react-native-toast-message'
 import {Button} from 'react-native-elements'
+
 import UserInfo from '../../components/Account/user/UserInfo'
+import AccountOption from '../../components/Account/user/AccountOptionUser'
 
 export default function UserLogged(){
     const [userInfo, setUserInfo] = useState(null)
+    const[reloadUserInfo, setReloadUserInfo] = useState(false)
     const toastRef = useRef()
-    useEffect(()=>{
+
+    useEffect( ()=>{
         (async()=>{
-            const user = await firebase.auth().
-            currentUser
+            const user = await firebase.auth().currentUser
             setUserInfo(user)
         })()
-    }, [])
+        setReloadUserInfo(false)
+    },[reloadUserInfo])
+
     return(
         <View style={styles.viewUserInfo}>
-            {userInfo&&<UserInfo userInfo={userInfo} toastRef={toastRef}/>}
-            <Text>
-             Cuenta y opciones
-            </Text>
+            {userInfo&&(<UserInfo userInfo={userInfo} toastRef={toastRef}/>)}
+           <AccountOption userInfo ={userInfo} toastRef={toastRef} setReloadUserInfo={setReloadUserInfo}/>
+
             <Button 
                 title= 'Cerrar sesion' 
                 buttonStyle={styles.btnCloseSession}

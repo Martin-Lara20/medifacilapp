@@ -51,14 +51,14 @@ export default function AccountStack(){
                 component = {PharmacyLogin}
                 options = {{title: "Login Farmacia"}}
             />
-            <Stack.Screen
-                name = "pharmacyLogged"
-                component = {PharmacyLogged}
-                options = {{title: "Cuenta Farmacia"}}
-            />        
+    
         </Stack.Navigator>
     )
 }
    
 
-    
+            /*<Stack.Screen
+                name = "pharmacyLogged"
+                component = {PharmacyLogged}
+                options = {{title: "Cuenta Farmacia"}}
+            />  */

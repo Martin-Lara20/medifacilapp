@@ -34,7 +34,7 @@ export default function PharmacyLoginForm(props){
                 .auth()
                 .signInWithEmailAndPassword(formData.email, formData.password)
                 .then(()=>{
-                    navigation.navigate('pharmacyLogged')
+                    navigation.navigate('account')
                 })
                 .catch(()=>{
                     toastRef.current.show({

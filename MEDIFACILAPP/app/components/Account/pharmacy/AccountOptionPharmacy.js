@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+/* import React, { useState } from "react";
 import {ListItem, Icon} from 'react-native-elements';
 import { StyleSheet, View, Text } from "react-native";
 import { Modal } from "../../Modal";
-/* import ChageDisplayNameForm from "./ChangeDisplayNameForm"; */
+import ChangeDisplayNamePharmacyForm from "./ChangeDisplayNamePharmacyForm";
 
-export default function AccountOption(props){
-    const {userInfo, toastRef, setReloadUserInfo} = props
+export default function AccountOptionPharmacy(props){
+    const {pharmacyInfo, toastRef, setReloadPharmacyInfo} = props
     const [showModal, setShowModal] = useState(false)
     const [renderComponent, setRenderComponent] =useState(null)
-    console.log(userInfo)
+    console.log(pharmacyInfo)
     const selectedComponent = (key) => {
         switch(key){
             case 'displayName':
                 setRenderComponent(
-                    <Text>Cambiando nombre</Text>
+                    <ChangeDisplayNamePharmacyForm
+                        displayName={pharmacyInfo.displayName}
+                        setShowModal={setShowModal}
+                        toastRef={toastRef}
+                        setReloadPharmacyInfo = {setReloadPharmacyInfo} 
+                    />
                 )
                 setShowModal(true)
                 break
@@ -55,7 +60,7 @@ export default function AccountOption(props){
             </Modal>
             )}
         </View>
-        /* Si renderComponent tiene un valor y no es nulo, entonces pasa a renderizar al Modal*/
+        //Si renderComponent tiene un valor y no es nulo, entonces pasa a renderizar al Modal
     )
 }
 
@@ -79,3 +84,4 @@ function generatedOptions(selectedComponent){
     ]
 }
 
+ */
