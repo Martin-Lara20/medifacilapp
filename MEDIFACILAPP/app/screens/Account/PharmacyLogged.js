@@ -4,6 +4,7 @@ import firebase from 'firebase'
 import Toast from 'react-native-toast-message'
 import {Button} from 'react-native-elements'
 import PharmacyInfo from '../../components/Account/pharmacy/PharmacyInfo'
+import AccountOption from '../../components/Account/pharmacy/AccountOption'
 
 export default function PharmacyLogged(){
     const [pharmacyInfo, setPharmacyInfo] = useState(null)
@@ -17,10 +18,8 @@ export default function PharmacyLogged(){
     }, [])
     return(
         <View style={styles.viewPharmInfo}>
-            {pharmacyInfo&&<PharmacyInfo pharmacyInfo={pharmacyInfo} toastRef={toastRef}/>}
-            <Text>
-             Cuenta y opciones
-            </Text>
+            {pharmacyInfo && <PharmacyInfo pharmacyInfo={pharmacyInfo} toastRef={toastRef}/>}
+            <AccountOption pharmacyInfo ={pharmacyInfo} toastRef={toastRef}/>
             <Button 
                 title= 'Cerrar sesion' 
                 buttonStyle={styles.btnCloseSession}
