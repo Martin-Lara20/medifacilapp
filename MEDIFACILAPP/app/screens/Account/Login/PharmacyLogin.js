@@ -3,7 +3,7 @@ import {StyleSheet, View, ScrollView, Text, Image} from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Toast from "react-native-toast-message"; 
 
-import PharmacyLoginForm from '../../../components/Account/PharmacyLoginForm';
+import PharmacyLoginForm from '../../../components/Account/pharmacy/PharmacyLoginForm';
 
 export default function PharmacyLogin(){
      const toastRef = useRef() 
