@@ -45,7 +45,7 @@ export default function PharmacyInfo(props){
            onPress={changeAvatar}
            containerStyle={styles.pharmInfoAvatar}
            source={
-               photoURL ? {uri:photoURL} : require('../../../assets/img/kisspng-computer-icons-user-profile-clip-art-portable-netw-c-svg-png-icon-free-download-389-86-onlineweb-5c6f7efde29670.9426602115508108779281.png')
+               photoURL ? {uri:photoURL} : require('../../../../assets/img/ImageProfile.png')
            }
           />
           <View>

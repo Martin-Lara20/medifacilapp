@@ -3,7 +3,7 @@ import {View, Text, StyleSheet } from 'react-native'
 import firebase from 'firebase'
 import Toast from 'react-native-toast-message'
 import {Button} from 'react-native-elements'
-import UserInfo from '../../components/Account/UserInfo'
+import UserInfo from '../../components/Account/user/UserInfo'
 
 export default function UserLogged(){
     const [userInfo, setUserInfo] = useState(null)

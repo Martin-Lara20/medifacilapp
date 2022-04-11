@@ -3,7 +3,7 @@ import {StyleSheet, View, Text} from 'react-native'
 import {Input, Icon, Button} from 'react-native-elements'
 import firebase from 'firebase'
 import {useNavigation} from '@react-navigation/native'
-import { validateEmail } from '../../utils/Validation'
+import { validateEmail } from '../../../utils/Validation'
 
 export default function PharmacyLoginForm(props){
     const {toastRef} = (props) 

@@ -1,8 +1,9 @@
 import React, {useRef} from "react"
 import { StyleSheet, View, Text, Image} from 'react-native'
-import UserRegisterForm from "../../../components/Account/UserRegisterForm"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Toast from "react-native-toast-message"
+
+import UserRegisterForm from "../../../components/Account/user/UserRegisterForm"
 
 
 export default function UserRegister(){

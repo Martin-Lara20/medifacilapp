@@ -3,7 +3,7 @@ import {View, Text, StyleSheet } from 'react-native'
 import firebase from 'firebase'
 import Toast from 'react-native-toast-message'
 import {Button} from 'react-native-elements'
-import PharmacyInfo from '../../components/Account/PharmacyInfo'
+import PharmacyInfo from '../../components/Account/pharmacy/PharmacyInfo'
 
 export default function PharmacyLogged(){
     const [pharmacyInfo, setPharmacyInfo] = useState(null)
