@@ -1,4 +1,4 @@
-/* import React from "react"
+import React from "react"
 import { StyleSheet, View, Text } from "react-native"
 import {Avatar} from 'react-native-elements'
 import firebase from 'firebase'
@@ -15,7 +15,7 @@ export default function PharmacyInfo(props){
     console.log(email)
 
     const changeAvatar= async ()=>{
-        const resultPermissions = await Permissions.askAsync(Permissions.mediaLibrary)
+        const resultPermissions = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
         console.log(resultPermissions.permissions.mediaLibrary)
         const resultPermissionsCamera = resultPermissions.permissions.mediaLibrary.status
 
@@ -77,4 +77,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         paddingBottom: 5
     }
-})// */
+})

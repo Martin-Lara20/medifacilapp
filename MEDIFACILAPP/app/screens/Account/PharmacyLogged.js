@@ -1,4 +1,4 @@
-/* import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import {View, Text, StyleSheet } from 'react-native'
 import firebase from 'firebase'
 import Toast from 'react-native-toast-message'
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
    btnCloseSessionText:{
      color:'#fff'
    }
-}) */
+})
