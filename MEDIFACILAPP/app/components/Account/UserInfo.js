@@ -15,7 +15,7 @@ export default function UserInfo(props){
     console.log(email)
 
     const changeAvatar= async ()=>{
-        const resultPermissions = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        const resultPermissions = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
         console.log(resultPermissions.permissions.mediaLibrary)
         const resultPermissionsCamera = resultPermissions.permissions.mediaLibrary.status
 
