@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     }
     ,
     btn:{
-        backgroundColor: '#00a680'
+        backgroundColor: '#05A6A6'
     },
     eyeIcon:{
         color:"#c2c2c2"

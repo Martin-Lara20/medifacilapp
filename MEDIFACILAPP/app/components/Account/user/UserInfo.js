@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     },
     displayName:{
         fontWeight: 'bold',
-        paddingBottom: 5
+        paddingBottom: 5,
+        textAlign: 'center'
     }
 })
