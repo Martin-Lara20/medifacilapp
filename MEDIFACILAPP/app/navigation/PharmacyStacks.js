@@ -1,6 +1,6 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import Pharmacy from "../screens/Pharmacy"
+import Pharmacy from "../screens/Medicamentos/Pharmacy"
 
 const Stack = createStackNavigator()
 
