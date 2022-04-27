@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {StyleSheet, Text, View, ScrollView } from "react-native";
-import { Button, Input, Icon } from "react-native-elements";
+import {StyleSheet, Text, View, ScrollView, Alert, ImagePickerIOS } from "react-native";
+import {Avatar, Button, Input, Icon } from "react-native-elements";
 import CountryPicker from 'react-native-country-picker-modal'
-
+import {map, size} from 'lodash'
 
 export default function AddPharmacyForm(props){
     const {toastRef, setLoading, navigation} = props
@@ -12,6 +12,7 @@ export default function AddPharmacyForm(props){
     const [errorEmail, setErrorEmail] = useState(null)
     const [errorAddress, setErrorAddress] = useState(null)
     const [errorPhone, setErrorPhone] = useState(null)
+    const [imagesSelected, setImagesSelected] = useState([])
 
     const addFarmacia = () =>{
         console.log(formData)
@@ -29,7 +30,11 @@ export default function AddPharmacyForm(props){
                 errorAddress={errorAddress}
                 errorPhone={errorPhone}
             />
-            <UploadImage/>
+            <UploadImage
+                toastRef={toastRef}
+                imagesSelected={imagesSelected}
+                setImagesSelected={setImagesSelected}
+            />
             <Button
                 title="Añadir Farmacia"
                 onPress={addFarmacia}
@@ -39,19 +44,31 @@ export default function AddPharmacyForm(props){
     )
 }
 
-function UploadImage(){
+function UploadImage({ toastRef, imagesSelected, setImagesSelected }){
     return(
         <ScrollView
         horizontal
         style={styles.viewImages}
         >
-            <Icon
+            {
+                size(imagesSelected) < 10 && (
+                   <Icon
                 type="material-community"
                 name="camera"
                 color="#7a7a7a"
                 containerStyle={styles.containerIcon}
-            />
-
+                     />   
+                )
+            }
+            {
+            map (imagesSelected, (imageFarmacia, index) => (
+                <Avatar
+                    key={index}
+                    style={styles.miniatureStyle}
+                    source={{uri: imageFarmacia }}
+                />
+            ))
+           }
         </ScrollView>
     )
 }
@@ -138,6 +155,18 @@ const defaultFormValues = () => {
     }
 }
 
+/* export const loadImageFromGallery = async(array) => {
+    const response= {status: false, image:null }
+    const resultPermissions = await Permissions.askAsync (Permissions.CAMERA)
+    if (resultPermissions.status === "denied"){
+        Alert.alert("Debes de darle permiso para acceder a las imagenes del telefono.")
+        return response
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+
+    })
+}  */  
+
 const styles = StyleSheet.create({
     viewContainer: {
         height: "100%"
@@ -171,5 +200,10 @@ const styles = StyleSheet.create({
         height: 70,
         width: 70,
         backgroundColor: "#e3e3e3"
+    },
+    miniatureStyle:{
+        width: 70,
+        height: 70,
+        marginRight: 10
     }
 })
