@@ -18,7 +18,6 @@ export default function Pharmacy(){
         })
     }, [])
 
-    if(user === null) return <Loading isVisible = {true} text = 'Procesando'/>
 
     return(
         <View style={styles.viewBody}>
