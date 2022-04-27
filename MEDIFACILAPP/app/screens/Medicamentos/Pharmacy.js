@@ -1,12 +1,16 @@
 import React, {useState, useEffect} from 'react'
 import {StyleSheet, View, Text} from 'react-native'
 import {Icon, Input} from 'react-native-elements'
-import {firebaseApp} from '../../utils/Firebase'
+import {firebaseApp} from '../../utils/firebase'
 import firebase from 'firebase/app'
+import {useNavigation} from '@react-navigation/native'
+
+import Loading from '../../components/Loading'
 
 
 export default function Pharmacy(){
     const [user, setUser] = useState(null)
+    const navigation = useNavigation()
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((userInfo) =>{
@@ -14,16 +18,19 @@ export default function Pharmacy(){
         })
     }, [])
 
+    if(user === null) return <Loading isVisible = {true} text = 'Procesando'/>
+
     return(
         <View style={styles.viewBody}>
             <Text>Pharmacy</Text>
             {user && (
             <Icon 
-            reverse
-            type='material-community'
-            name='plus'
-            color= '#00a680'
-            containerStyle={styles.btnContainer}
+                reverse
+                type='material-community'
+                name='plus'
+                color= '#05A6A6'
+                containerStyle={styles.btnContainer}
+                onPress ={() => navigation.navigate("add-pharmacy")}
             />)}
         </View>
     )
