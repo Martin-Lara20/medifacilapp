@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import {StyleSheet, Text, View } from "react-native";
-import { Button, Input } from "react-native-elements";
+import {StyleSheet, Text, View, ScrollView } from "react-native";
+import { Button, Input, Icon } from "react-native-elements";
 import CountryPicker from 'react-native-country-picker-modal'
+
 
 export default function AddPharmacyForm(props){
     const {toastRef, setLoading, navigation} = props
@@ -28,12 +29,30 @@ export default function AddPharmacyForm(props){
                 errorAddress={errorAddress}
                 errorPhone={errorPhone}
             />
+            <UploadImage/>
             <Button
                 title="Añadir Farmacia"
                 onPress={addFarmacia}
                 buttonStyle = {styles.btnAddFarmacia}
             />
         </View>
+    )
+}
+
+function UploadImage(){
+    return(
+        <ScrollView
+        horizontal
+        style={styles.viewImages}
+        >
+            <Icon
+                type="material-community"
+                name="camera"
+                color="#7a7a7a"
+                containerStyle={styles.containerIcon}
+            />
+
+        </ScrollView>
     )
 }
 
@@ -139,6 +158,18 @@ const styles = StyleSheet.create({
     btnAddFarmacia: {
         margin: 20,
         backgroundColor: "#05A6A6"
+    },
+    viewImages: {
+        flexDirection: "row",
+        marginHorizontal: 20,
+        marginTop: 30
+    },
+    containerIcon: {
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 10,
+        height: 70,
+        width: 70,
+        backgroundColor: "#e3e3e3"
     }
-
 })
