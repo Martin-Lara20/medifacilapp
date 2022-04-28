@@ -11,6 +11,7 @@ import Loading from '../../components/Loading'
 export default function Pharmacy(){
     const [user, setUser] = useState(null)
     const navigation = useNavigation()
+    console.log(user)
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((userInfo) =>{
