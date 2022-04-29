@@ -2,10 +2,11 @@ import React, {useState, useEffect} from "react";
 import {StyleSheet, Text, View, ScrollView, Alert, Dimensions } from 'react-native';
 import {Avatar, Button, Input, Icon, Image} from "react-native-elements";
 import CountryPicker from 'react-native-country-picker-modal'
-import {filter, map, size} from 'lodash'
+import {filter, isEmpty, map, size} from 'lodash'
 import firebase from 'firebase/app'
-
 import {loadImageFromGallery} from '../../utils/helpers'
+import { validateEmail } from "../../utils/Validation";
+
 const widthScreen = Dimensions.get("window").width
 
 export default function AddPharmacyForm(props){
@@ -19,11 +20,61 @@ export default function AddPharmacyForm(props){
     const [imagesSelected, setImagesSelected] = useState([])
 
     const addFarmacia = () =>{
-        console.log(formData)
+        if (!validForm()) {
+            return
+        }
         console.log("Ok todo bien")
         
     }
     
+    const validForm = () => {
+        clearError()
+        let isValid = true
+
+        if (isEmpty(formData.name)) {
+            setErrorName("Debes ingresar el nombre de la farmacia")
+            isValid = false
+        }
+
+        if (!validateEmail(formData.email)) {
+            setErrorEmail("Debes ingresar un email valido para la farmacia")
+            isValid = false
+        }
+
+        if (isEmpty(formData.address)) {
+            setErrorAddress("Debes ingresar la dirección de la farmacia")
+            isValid = false
+        }
+
+        if (size(formData.phone) < 10) {
+            setErrorPhone("Debes ingresar un numero telefonico para la farmacia valido")
+            isValid = false
+        }
+
+        if (isEmpty(formData.description)) {
+            setErrorDescription("Debes ingresar una referencia de la ubicación")
+            isValid = false
+        }
+
+        if (!locationPharmacy) {
+            toastRef.current.show("Debes de localizar la farmacia en el mapa", 3000)
+            isValid = false
+        } else if(size(imagesSelected) === 0){
+            toastRef.current.show("Debes de agregar al menos una imagen", 3000)
+            isValid = false
+        }
+        
+        return isValid
+    }
+
+        const clearError = () => {
+            setErrorDescription(null)
+            setErrorEmail(null)
+            setErrorPhone(null)
+            setErrorName(null)
+            setErrorAddress(null)
+        }
+
     return(
         <ScrollView style = {styles.viewContainer}>
             <ImagePharmacy
@@ -188,7 +239,7 @@ const defaultFormValues = () => {
         style={styles.viewImages}
         >
             {
-                size(imagesSelected) < 3 && (
+                size(imagesSelected) < 6 && (
                    <Icon
                 type="material-community"
                 name="camera"
@@ -213,108 +264,6 @@ const defaultFormValues = () => {
     )
 }
 
-/*export const loadImageFromGallery = async(array) => {
-    const response = { status: true, image: null }
-    const resultPermissions = await Permissions.askAsync (Permissions.MEDIA_LIBRARY)
-    if (resultPermissions.status === "denied"){
-        Alert.alert("Debes de darle permiso para acceder a las imagenes del telefono.")
-        return response
-    }else
-    {const result = await ImagePicker.launchImageLibraryAsync({
-            allowsEditing: true,
-            aspect: array
-    })
-    if (result.cancelled){
-        return response
-    }}
-    response.status = true
-    response.image = result.uri
-    return response
-} */  
- 
-/* export function PicturePharmacy (props){
-    const{toastRef, imagesSelected, setImagesSelected, user} = props
-    console.log(user)
-    const AddPicture = async() =>{
-        const resultPermissions = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
-        const resultPermissionsCamera = resultPermissions.permissions.mediaLibrary.status
-        if(resultPermissionsCamera === 'denied'){
-            toastRef.current.show({
-                type: 'info',
-                position: 'top',
-                text1: 'Permissions',
-                text2: 'Es necesario aceptar los permisos de la galeria',
-                visibilityTime:3000
-            })
-        }else {
-            const result = await ImagePicker.launchImageLibraryAsync({
-                allowsEditing:true,
-                aspect:[4,3]
-            })
-            console.log(result)
-            if (result.cancelled){
-                toastRef.current.show({
-                    type: 'info',
-                    position: 'top',
-                    text1: 'Canceled',
-                    text2: 'No elegiste ninguna imagen',
-                    visibilityTime:3000
-                })
-            } 
-            setImagesSelected([...imagesSelected, result])
-            
-        }
-    }
-
-    ////ESTA SECCION QUE COMENTÉ ES LA PARTE PARA LA VALIDACIÓN DE FIREBASE NO ES TAN NECESARIO MODIFCARLO AHORA COMENTADO
-    ///NO AFECTA AL CODIGO AUN SE PUEDE ACCEDAR A LA GALERIA
-    const uploadImage = async (uri) => {
-        console.log(uri)
-        const response = await fetch (uri)
-        console.log(JSON.stringify(response))
-        const blob = await response.blob()
-        console.log(JSON.stringify(blob))
-        const ref = firebase.storage().ref().child(`pictures/${uid}`)
-        return ref.put(blob)
-    } 
-    const updatePhotoUrl = () =>{
-        firebase.storage().ref(`pictures/${uid}`).getDownloadURL()
-        .then(async(response)=>{
-            console.log(response)
-            const update = {photoURL: response}
-            await firebase.auth().currentUser.updateProfile(update)
-            console.log('Imagen actualizada')
-        })       
-    } 
- 
-    return(
-        <ScrollView
-        horizontal
-        style={styles.viewImages}
-        >
-            {
-                size(imagesSelected) < 3 && (
-                   <Icon
-                        type="material-community"
-                        name="camera"
-                        color="#7a7a7a"
-                        containerStyle={styles.containerIcon}
-                        onPress={AddPicture} 
-                     />   
-                )
-            }
-            {
-                map (imagesSelected, (result, index) => (
-                    <Avatar
-                        key={index}
-                        style={styles.miniatureStyle}
-                        source={{uri: result }}
-                    />
-                ))
-            }
-        </ScrollView>
-    )
-} */
 
 const styles = StyleSheet.create({
     viewContainer: {
