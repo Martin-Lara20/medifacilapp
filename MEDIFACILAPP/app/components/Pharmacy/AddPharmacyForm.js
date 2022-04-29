@@ -6,6 +6,7 @@ import {filter, isEmpty, map, size} from 'lodash'
 import firebase from 'firebase/app'
 import {loadImageFromGallery} from '../../utils/helpers'
 import { validateEmail } from "../../utils/Validation";
+import uuid from 'random-uuid-v4'
 
 const widthScreen = Dimensions.get("window").width
 
@@ -19,14 +20,33 @@ export default function AddPharmacyForm(props){
     const [errorPhone, setErrorPhone] = useState(null)
     const [imagesSelected, setImagesSelected] = useState([])
 
-    const addFarmacia = () =>{
+    const addFarmacia = async() =>{
         if (!validForm()) {
             return
         }
+
+        setLoading(true)
+        const response = await uploadImages()
+        console.log(response)
+        setLoading(false)
+
         console.log("Ok todo bien")
         
     }
     
+    const uploadImages = async() => {
+        const imageUrl = []
+        await Promise.all(
+            map(imagesSelected, async(image) => {
+                const response = await UploadImage(image, "farmacias", uuid())
+                if (response.statusResponse) {
+                    imageUrl.push(response.url)
+                }
+            })
+        )
+        return imageUrl
+    }
+
     const validForm = () => {
         clearError()
         let isValid = true
@@ -56,10 +76,7 @@ export default function AddPharmacyForm(props){
             isValid = false
         }
 
-        if (!locationPharmacy) {
-            toastRef.current.show("Debes de localizar la farmacia en el mapa", 3000)
-            isValid = false
-        } else if(size(imagesSelected) === 0){
+        else if(size(imagesSelected) === 0){
             toastRef.current.show("Debes de agregar al menos una imagen", 3000)
             isValid = false
         }
