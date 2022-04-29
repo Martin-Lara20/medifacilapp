@@ -34,3 +34,22 @@ export const addDocument = async (collection, data) => {
     }
     return result
 }
+
+export const getPharmacy = async (limitPharmacy) => {
+    const result = {statusResponse: true, error: null, pharmacies: [], startPharmacy: null}
+    try{
+       const response = await db.collection("pharmacy").orderBy("createAt", "desc").limit(limitPharmacy).get()
+       if(!response.docs.length > 0){
+           result.startPharmacy = response.docs[response.docs.length - 1]
+       }
+       response.forEach((doc) =>{
+           const pharmacy = doc.data()
+           pharmacy.id = doc.id
+           result.pharmacies.push(pharmacy)
+       })
+    }catch(error){
+        result.statusResponse = false
+        result.error = error
+    }
+    return result
+}
