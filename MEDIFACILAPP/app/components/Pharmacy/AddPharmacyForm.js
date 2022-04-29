@@ -3,16 +3,16 @@ import {StyleSheet, Text, View, ScrollView, Alert, Dimensions } from 'react-nati
 import {Avatar, Button, Input, Icon, Image} from "react-native-elements";
 import CountryPicker from 'react-native-country-picker-modal'
 import {filter, isEmpty, map, size} from 'lodash'
-import firebase from 'firebase/app'
+import uuid from 'random-uuid-v4'
+
 import {loadImageFromGallery} from '../../utils/helpers'
 import { validateEmail } from "../../utils/Validation";
-import uuid from 'random-uuid-v4'
-import { uploadImage } from "../../utils/actions";
+import { uploadImage, getCurrentUser, addDocument } from "../../utils/actions";
 
 const widthScreen = Dimensions.get("window").width
 
 export default function AddPharmacyForm(props){
-    const {toastRef, setLoading, navigation, user} = props
+    const {toastRef, setLoading, navigation} = props
     const [formData, setFormData] = useState(defaultFormValues())
     const [errorName, setErrorName] = useState(null)
     const [errorDescription, setErrorDescription] = useState(null)
@@ -27,12 +27,28 @@ export default function AddPharmacyForm(props){
         }
 
         setLoading(true)
-        const response = await uploadImages()
-        console.log(response)
+        const responseUploadImages = await uploadImages()
+        const pharmacy ={
+            name: formData.name,
+            address: formData.address,
+            description: formData.description,
+            callingCode: formData.callingCode,
+            phone: formData.phone,
+            images: responseUploadImages,
+            createAt: new Date(),
+            createBy: getCurrentUser().uid
+        }
+        const responseAddDocument = await addDocument("pharmacy", pharmacy)
+        
         setLoading(false)
         console.log(formData)
         console.log("Ok todo bien")
-        
+
+        if(!responseAddDocument.statusResponse){
+            toastRef.current.show("Error al guardar información", 3000)
+            return
+        }
+        navigation.navigate("Pharmacy")
     }
     
      const uploadImages = async() => {
