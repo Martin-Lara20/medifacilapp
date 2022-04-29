@@ -7,11 +7,12 @@ import firebase from 'firebase/app'
 import {loadImageFromGallery} from '../../utils/helpers'
 import { validateEmail } from "../../utils/Validation";
 import uuid from 'random-uuid-v4'
+import { uploadImage } from "../../utils/actions";
 
 const widthScreen = Dimensions.get("window").width
 
 export default function AddPharmacyForm(props){
-    const {toastRef, setLoading, navigation} = props
+    const {toastRef, setLoading, navigation, user} = props
     const [formData, setFormData] = useState(defaultFormValues())
     const [errorName, setErrorName] = useState(null)
     const [errorDescription, setErrorDescription] = useState(null)
@@ -29,23 +30,23 @@ export default function AddPharmacyForm(props){
         const response = await uploadImages()
         console.log(response)
         setLoading(false)
-
+        console.log(formData)
         console.log("Ok todo bien")
         
     }
     
-    const uploadImages = async() => {
+     const uploadImages = async() => {
         const imageUrl = []
         await Promise.all(
             map(imagesSelected, async(image) => {
-                const response = await UploadImage(image, "farmacias", uuid())
+                const response = await uploadImage(image, "farmacias", uuid())
                 if (response.statusResponse) {
                     imageUrl.push(response.url)
                 }
             })
         )
         return imageUrl
-    }
+    } 
 
     const validForm = () => {
         clearError()
