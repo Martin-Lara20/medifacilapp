@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import {StyleSheet, Text, View, ScrollView, Alert, ImagePickerIOS } from "react-native";
-import {Avatar, Button, Input, Icon } from "react-native-elements";
+import React, {useState, useEffect} from "react";
+import {StyleSheet, Text, View, ScrollView, Alert, Dimensions } from 'react-native';
+import {Avatar, Button, Input, Icon, Image} from "react-native-elements";
 import CountryPicker from 'react-native-country-picker-modal'
-import {map, size} from 'lodash'
+import {filter, map, size} from 'lodash'
+import firebase from 'firebase/app'
 
-import * as Permissions from 'expo-permissions'
-import * as ImagePicker from 'expo-image-picker' 
-
+import {loadImageFromGallery} from '../../utils/helpers'
+const widthScreen = Dimensions.get("window").width
 
 export default function AddPharmacyForm(props){
     const {toastRef, setLoading, navigation} = props
@@ -23,9 +23,12 @@ export default function AddPharmacyForm(props){
         console.log("Ok todo bien")
         
     }
-
+    
     return(
-        <View style = {styles.viewContainer}>
+        <ScrollView style = {styles.viewContainer}>
+            <ImagePharmacy
+                imageFarmacia={imagesSelected[0]}
+            />
             <FormAdd
                 formData={formData}
                 setFormData={setFormData}
@@ -35,7 +38,7 @@ export default function AddPharmacyForm(props){
                 errorAddress={errorAddress}
                 errorPhone={errorPhone}
             />
-            <PicturePharmacy
+            <UploadImage
                 toastRef={toastRef}
                 imagesSelected={imagesSelected}
                 setImagesSelected={setImagesSelected}
@@ -45,7 +48,22 @@ export default function AddPharmacyForm(props){
                 onPress={addFarmacia}
                 buttonStyle = {styles.btnAddFarmacia}
             />
-        </View>
+        </ScrollView>
+    )
+}
+
+function ImagePharmacy({ imageFarmacia }) {
+    return (
+    <View style={styles.viewPhoto}>
+        <Image
+            style={{ width: widthScreen, height: 200}}
+            source={
+                imageFarmacia
+                    ? { uri: imageFarmacia}
+                    : require('../../../assets/img/sin-image.jpg')
+            }
+        />
+    </View>
     )
 }
 
@@ -97,7 +115,7 @@ function FormAdd(props){
                     }}
                 />
                 <Input
-                    placeholder="WhatsApp de la farmacia..."
+                    placeholder="Numero de la farmacia..."
                     keyboardType="phone-pad"
                     containerStyle = {styles.inputPhone}
                     defaultValue={formData.phone}
@@ -131,24 +149,46 @@ const defaultFormValues = () => {
     }
 }
 
- /*  export function UploadImage(props){
+ function UploadImage(props){
     const {toastRef, imagesSelected, setImagesSelected} = props
     const imageSelect = async() => {
-    const response = loadImageFromGallery[[4, 3]]
+    const response = await loadImageFromGallery([4, 3])
         if (!response.status){
             toastRef.current.show("No has seleccionado ninguna imagen", 3000)
             return
         }
-        setImagesSelected([...imagesSelected, response])
+        setImagesSelected([...imagesSelected, response.image])
     }
  
+    const removeImage = (image) =>{
+        Alert.alert(
+            "Estas a punto de borrar esta imagen",
+            "¿Deseas eliminar esta imagen?",
+            [
+                {
+                    text: "No",
+                    style: "Cancel"
+                },
+                {
+                    text: "Sí",
+                    onPress: () =>{
+                        setImagesSelected(
+                            filter(imagesSelected, (imageUrl) => imageUrl !== image)
+                        )
+                    }
+                }
+            ],
+            {cancelable: false}
+        )
+    }
+
     return(
         <ScrollView
         horizontal
         style={styles.viewImages}
         >
             {
-                size(imagesSelected) < 10 && (
+                size(imagesSelected) < 3 && (
                    <Icon
                 type="material-community"
                 name="camera"
@@ -164,12 +204,14 @@ const defaultFormValues = () => {
                         key={index}
                         style={styles.miniatureStyle}
                         source={{uri: imageFarmacia }}
+                        onPress={() => removeImage(imageFarmacia)}
+                        
                     />
                 ))
             }
         </ScrollView>
     )
-}*/
+}
 
 /*export const loadImageFromGallery = async(array) => {
     const response = { status: true, image: null }
@@ -190,8 +232,9 @@ const defaultFormValues = () => {
     return response
 } */  
  
-export function PicturePharmacy (props){
-    const{toastRef, imagesSelected, setImagesSelected} = props
+/* export function PicturePharmacy (props){
+    const{toastRef, imagesSelected, setImagesSelected, user} = props
+    console.log(user)
     const AddPicture = async() =>{
         const resultPermissions = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
         const resultPermissionsCamera = resultPermissions.permissions.mediaLibrary.status
@@ -217,7 +260,7 @@ export function PicturePharmacy (props){
                     text2: 'No elegiste ninguna imagen',
                     visibilityTime:3000
                 })
-            }
+            } 
             setImagesSelected([...imagesSelected, result])
             
         }
@@ -225,7 +268,7 @@ export function PicturePharmacy (props){
 
     ////ESTA SECCION QUE COMENTÉ ES LA PARTE PARA LA VALIDACIÓN DE FIREBASE NO ES TAN NECESARIO MODIFCARLO AHORA COMENTADO
     ///NO AFECTA AL CODIGO AUN SE PUEDE ACCEDAR A LA GALERIA
-    /* const uploadImage = async (uri) => {
+    const uploadImage = async (uri) => {
         console.log(uri)
         const response = await fetch (uri)
         console.log(JSON.stringify(response))
@@ -233,7 +276,7 @@ export function PicturePharmacy (props){
         console.log(JSON.stringify(blob))
         const ref = firebase.storage().ref().child(`pictures/${uid}`)
         return ref.put(blob)
-    }
+    } 
     const updatePhotoUrl = () =>{
         firebase.storage().ref(`pictures/${uid}`).getDownloadURL()
         .then(async(response)=>{
@@ -242,8 +285,8 @@ export function PicturePharmacy (props){
             await firebase.auth().currentUser.updateProfile(update)
             console.log('Imagen actualizada')
         })       
-    }
- */
+    } 
+ 
     return(
         <ScrollView
         horizontal
@@ -261,17 +304,17 @@ export function PicturePharmacy (props){
                 )
             }
             {
-                map (imagesSelected, (imageFarmacia, index) => (
+                map (imagesSelected, (result, index) => (
                     <Avatar
                         key={index}
                         style={styles.miniatureStyle}
-                        source={{uri: imageFarmacia }}
+                        source={{uri: result }}
                     />
                 ))
             }
         </ScrollView>
     )
-}
+} */
 
 const styles = StyleSheet.create({
     viewContainer: {
@@ -311,5 +354,10 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         marginRight: 10
+    },
+    viewPhoto: {
+        alignItems: "center",
+        height: 200,
+        marginBottom: 20
     }
 })
